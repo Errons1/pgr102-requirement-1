@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppvarming 1</title>
+</head>
+<body>
+    
+    <!-- Det er lov å endre HTML og id'er -->
+    <input id="add-images-btn" type="button" value="Legg til bilder" onclick="randomeNumberGenerator()">
+    <p>Antall bilder: <span id="number-of-images-span">0</span></p>
+    <div id="output-div"></div>
+
+    <script>
+        var numberOfImagesSpan = document.getElementById("number-of-images-span");
+        var outputDiv = document.getElementById("output-div"); 
+
+        function randomeNumberGenerator() {
+            //Denne klargjør div-tag for nytt sett med bilder
+            outputDiv.innerHTML = ``;
+
+            //Denne gir et tilfeldig tall fra 1-100
+            var randomeNumber = Math.floor(Math.random()*(100 - 1 ) + 1); //tror "var randomeNumber = Math.floor(Math.random()*100 + 1);" Er litt renere
+            numberOfImagesSpan.innerHTML = `${randomeNumber}`;
+
+            //Denne løker likt med tilfeldig tall og printer ut tilfeldig mellom 4 bilder
+            for (let i = 0; i < randomeNumber; i++) {
+                var randomPerson = Math.floor(Math.random()*4 +1);
+                outputDiv.innerHTML += `<img src="/images/person${randomPerson}.jpg">`;
+            }
+        }
+        /*
+        Bra ting: 
+        - kort og effektivt script
+        - ingen unødventig repitisjon
+        */
+
+    </script>
+
+</body>
+</html>

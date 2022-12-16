@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="denne-mappen-trengs-ikke-roeres/er-du-synsk.css">
+    <title>Er du synsk?</title>
+</head>
+<body>
+    
+    <!--Dette er startmeny. Kan velge mellom 3 vanskelighetsgrader og en knapp for å starte spill-->
+    <div id="start-menu">
+        <header><h1>Velkommen til: Er du synsk?</h1></header>
+        <div>
+            <form>
+                <p>Hvilken vanskelighetsgrad ønsker du?</p>
+
+                <input id="Easy" name="difficulty" type="radio" value="Easy">
+                <label for="Easy">Lett</label><br>
+
+                <input id="Normal" name="difficulty" type="radio" value="Medium">
+                <label for="Normal">Normal</label><br>
+
+                <input id="Hard" name="difficulty" type="radio" value="Hard">
+                <label for="Hard">Vanskeligt</label><br>
+
+                <input type="button" value="Start" onclick="moveToMainGame(true)"> 
+            </form>
+        </div>
+    </div>
+
+    <!--Dette er div-tag for som blir fylt opp av funksjon moveToMainGame() og har selve spillet og win/lose meny-->
+    <div id="main-game"></div>
+
+    <script>
+        //HTML-objekter
+        var startMenu = document.getElementById("start-menu")
+        var mainGame = document.getElementById("main-game")
+
+        var numOfLifesDiv;
+        var numOfCorrectAnswersDiv;
+        var numOfWrongAnswerDiv;
+        var difficultyForm;
+
+        // Variabler
+        var userCorrectGuesses; 
+        var userWrongGuesses;
+        var userLifes;
+
+        // Funksjoner
+        function moveToMainGame(firstTime){//Setter opp spillbrette med riktige HTML-elementer
+            if (firstTime == true){//Sørger for at at vanskeligsgrad blir hentet fra startmeny og ikke endres med retry
+                difficultyForm = document.querySelector('input[name="difficulty"]:checked').value;
+            }
+
+            startMenu.innerHTML = ``; 
+            mainGame.innerHTML = `        
+                <header><h1>Er du synsk?</h1></header>
+                <!-- Det er lov å endre HTML og id'er -->
+                <section>
+                    <div id="box1-div" onclick="theGame(1)">Denne?</div>
+                    <div id="box2-div" onclick="theGame(2)">Eller denne?</div>
+                </section>
+                <div id="number-of-lives-div">
+                </div>
+                <div id="number-of-right-answers-div">
+                    <p>Antall riktige: 0</p>
+                </div>
+                <div id="number-of-wrong-answers-div">
+                    <p>Antall feil: 0</p>
+                </div>    
+                <div id="output-div">
+                    <p>Klikk på en av boksene for å begynne spillet</p>            
+                </div>
+            `;
+
+            userCorrectGuesses = 0;
+            userWrongGuesses = 0;
+
+            numOfLifesDiv = document.getElementById("number-of-lives-div");
+            numOfCorrectAnswersDiv = document.getElementById("number-of-right-answers-div");
+            numOfWrongAnswerDiv = document.getElementById("number-of-wrong-answers-div");
+                
+            variableSetter(difficultyForm);
+            amountLifesFunction();
+        }
+
+        function moveToStartMany(){//Fjerner spillbrette og fyller tilbake hovedmenyen
+            mainGame.innerHTML = ``;
+            startMenu.innerHTML = `
+                <header><h1>Velkommen til: Er du synsk?</h1></header>
+                <div>
+                    <form>
+                        <p>Hvilken vanskelighetsgrad ønsker du?</p>
+
+                        <input id="Easy" name="difficulty" type="radio" value="Easy">
+                        <label for="Easy">Lett</label><br>
+
+                        <input id="Normal" name="difficulty" type="radio" value="Medium">
+                        <label for="Normal">Normal</label><br>
+
+                        <input id="Hard" name="difficulty" type="radio" value="Hard">
+                        <label for="Hard">Vanskeligt</label><br>
+
+                        <input type="button" value="Start" onclick="moveToMainGame(true)"> 
+                    </form>
+                </div>
+            `; 
+        }
+
+        function variableSetter(difficulty){//Henter data for radio-input fra starten og velger hvor mange liv spilleren skal ha ved start
+            if (difficulty == "Easy") {
+                userLifes = 5;
+            }else if (difficulty == "Medium") {
+                userLifes = 3;
+            }else if (difficulty == "Hard"){
+                userLifes = 1;
+            }
+        }   
+
+        function amountLifesFunction(wrongGuess){//Justere hvor mange liv spiller har etter valg + printer ut antall bilder som man har liv. 
+            if (wrongGuess == true) {
+                userLifes -= 1;
+            } else if (userCorrectGuesses == 3 || userCorrectGuesses == 5 || userCorrectGuesses == 7){
+                userLifes = userLifes + 1; 
+            }
+
+            numOfLifesDiv.innerHTML = ``;
+            for (let i = 0; i < userLifes; i++) {
+                numOfLifesDiv.innerHTML += `<img src="/images/person1.jpg">`;
+            }
+        }
+
+        function amountCorrectFunction() {//Holder oversikt over antall riktige/highscore
+            userCorrectGuesses += 1;
+            numOfCorrectAnswersDiv.innerHTML = `Antall riktige: ${userCorrectGuesses}`;
+
+        }
+
+        function amountWrongFunction(){//Holder oversikt over antall feil valg bruker valgte
+            userWrongGuesses += 1;
+            numOfWrongAnswerDiv.innerHTML = `Antall feil: ${userWrongGuesses}`;
+        }
+
+        function userWonGame(){//Viser vinner meny med highscore + bilde
+            if (userCorrectGuesses == 10) {
+                mainGame.innerHTML = `
+                    <header><h1>Du er synsk!</h1></header>
+                    <p>Gratulere! Du vant spillet! :)</p>
+                    <img src="/images/fireworks.jpg" alt="fireworks"> <br>
+                    <input type="button" value="Tilbake til hovedmeny" onclick="moveToStartMany()">
+                    <input type="button" value="Spill på nytt" onclick="moveToMainGame()">
+                `; 
+            }
+           
+        }
+
+        function userLostGame(highscore){//Viser "the end" meny med highscore + bilde
+            if (userLifes == 0) {
+                mainGame.innerHTML = `
+                    <header><h1>Du er ikke synsk</h1></header>
+                    <p>Du tapte! Din score ble ${highscore}</p>
+                    <img src="/images/cat.jpg" alt="sad cat, you lost"> <br>
+                    <input type="button" value="Tilbake til hovedmeny" onclick="moveToStartMany()">
+                    <input type="button" value="Spill på nytt" onclick="moveToMainGame()">
+                `;
+            }
+        }
+
+        function theGame(userGuess) {//Kjernen i spillet
+            //Denne genere hvilken av rutene er riktig og feil
+            var correctGuess = Math.floor(Math.random()*2 +1);
+            userGuess = parseInt(userGuess);
+            
+            if (correctGuess === userGuess) {//Hvis riktig skal den øke antall riktige, sørge for man ikke mister liv og så vise vinner skjerm hvis man har 10 poeng
+                amountCorrectFunction();
+                amountLifesFunction(false);
+                userWonGame()
+            }else if (correctGuess !== userGuess) {//Hvis feil skal den øke antall feile, redusere helsen og evt vise "the end"-skjerm med 0 helse
+                amountWrongFunction();
+                amountLifesFunction(true);
+                userLostGame(userCorrectGuesses)
+            }
+        }
+    </script>
+</body>
+</html>

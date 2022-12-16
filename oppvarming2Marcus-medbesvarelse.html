@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppvarming 2</title>
+
+    <style type="text/css">
+    
+        body {
+            background-color: rgb(85, 84, 84);
+        }
+    
+    </style>
+</head>
+<body>
+    
+    <!-- Det er lov å endre HTML og id'er -->
+    <h3>Klikk på den du tror har en katt!</h3>
+    <img id="check-person1-img" src="images/person1.jpg">
+    <img id="check-person2-img" src="images/person2.jpg">
+    <div id="output-div"></div>
+
+    <script>
+    
+        //HTML elements
+        var checkPerson1Img = document.getElementById("check-person1-img");
+        var checkPerson2Img = document.getElementById("check-person2-img");
+        var outputDiv = document.getElementById("output-div");
+
+        //Variable that randomizes who has a cat
+        var whoHasCat = Math.floor(Math.random() * 2 + 1);
+
+        //Function for the one who has a cat
+        function hasCat() {
+            outputDiv.innerHTML = `
+            <p>Det er riktig! Personen har en katt! :)</p>
+            <img src="images/cat.jpg" alt="cat">
+            `
+        }
+
+        //Function for the one who has a frog
+        function hasFrog() {
+            outputDiv.innerHTML = `
+            <p>Det er feil! Personen har en frosk! :o</p>
+            <img src="images/frog.jpg" alt="frog">
+            `
+        }
+
+        //Checks if the one you click has cat or frog
+        if (whoHasCat == 1) {
+            checkPerson1Img.onclick = hasCat;
+            checkPerson2Img.onclick = hasFrog;
+        } else {
+            checkPerson1Img.onclick = hasFrog;
+            checkPerson2Img.onclick = hasCat;
+        }
+    </script>
+
+<!-- 
+Ting du gjør bra:
+1. Fin oversikt av koden din, med kommentarer
+2. Alt av onclick ligger i JS
+3.Stylepoints for bakgruns farger! 
+
+Ting du kan gjør bedre: 
+1. Hvis man skulle ønsket å korte ned koden kan man skriva alt i en funksjon.
+I denne funksjonen bruker du en if else for å sjekke hva du skal printe ut. 
+
+-Snorre Ledal
+ -->
+</body>
+</html>

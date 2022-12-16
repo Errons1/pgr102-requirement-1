@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppvarming 1</title>
+    <style type ="text/css">
+    
+        body {
+            background-color: rgb(71, 70, 70);
+        }
+
+    </style>
+
+</head>
+<body>
+    
+    <!-- Det er lov å endre HTML og id'er -->
+    <input id="add-images-btn" type="button" value="Legg til bilder">
+    <p>Antall bilder: <span id="number-of-images-span">0</span></p>
+    <div id="output-div"></div>
+    
+
+    <script>
+
+        //HTML Elements
+        var addImagesBtn = document.getElementById("add-images-btn");
+        var numberOfImagesSpan = document.getElementById("number-of-images-span");
+        var outputDiv = document.getElementById("output-div");
+
+        //Variables
+        var images;
+
+        //Functions
+        function rndmImages () {
+            //Clears the field
+            outputDiv.innerHTML = "";
+
+            //Randomizes number of images
+            images = Math.floor(Math.random() * 100 + 1);
+            numberOfImagesSpan.innerHTML = images;
+
+            //Prints a random image a number of times equal to images
+            for (let i = 0; i < images; i++) {
+                var person = Math.floor(Math.random() * 4 + 1);
+
+                outputDiv.innerHTML += `<img src="images/person${person}.jpg" alt="man">`;
+            }
+        }
+
+        //Event for button
+        addImagesBtn.onclick = rndmImages;
+
+    </script>
+
+    <!-- Ting som er bra:
+    1. Du har gitt fine og korte kommentarer på hva som gjør hva.
+    2. All kode er i JS, sikter til onclick. 
+
+    Ting som kan bli bedre: 
+    Jeg klare ikke å finne noe som er overflødig i kode. Meget god jobb!
+
+    -Snorre Ledal
+    -->
+
+</body>
+</html>
